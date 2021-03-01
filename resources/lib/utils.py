@@ -22,13 +22,7 @@ KODI_VERSION = int(xbmc.getInfoLabel("System.BuildVersion").split(".")[0])
 
 def log_msg(msg, loglevel=xbmc.LOGDEBUG):
     ''' log message with addon name and version to kodi log '''
-    if sys.version_info.major < 3:
-        if isinstance(msg, unicode):
-           msg = msg.encode('utf-8')
-    addon = xbmcaddon.Addon(id=ADDON_ID)
-    addon_name = addon.getAddonInfo('name')
-    addon_ver = addon.getAddonInfo('version')
-    xbmc.log("{0} v{1} --> {2}".format(addon_name, addon_ver, msg), level=loglevel)
+    xbmc.log("%s --> %s" % (ADDON_ID, msg), level=loglevel)
 
 
 def log_exception(modulename, exceptiondetails):
@@ -36,7 +30,7 @@ def log_exception(modulename, exceptiondetails):
     if sys.version_info.major == 3:
         exc_type, exc_value, exc_traceback = sys.exc_info()
         lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
-        log_msg("Exception details: Type: %s Value: %s Traceback: %s" % (exc_type.__name__, exc_value, ''.join(line for line in lines)), xbmc.LOGERROR)
+        log_msg("Exception details: Type: %s Value: %s Traceback: %s" % (exc_type.__name__, exc_value, ''.join(line for line in lines)), xbmc.LOGWARNING)
     else:
         log_msg(format_exc(sys.exc_info()), xbmc.LOGWARNING)
         log_msg("Exception in %s ! --> %s" % (modulename, exceptiondetails), xbmc.LOGERROR)
